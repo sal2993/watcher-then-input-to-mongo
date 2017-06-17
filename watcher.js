@@ -16,6 +16,10 @@ var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_ENV);
 
 fs.watch('target.txt', function() {
+  fs.writeFile("./logger.txt", "success\n", function(err) {
+    if (err) {
+      return console.log(err);
+    }
     readLastLines.read('./target.txt', 1)
     .then(function (lines) {
       var line = JSON.parse(lines);
@@ -27,6 +31,7 @@ fs.watch('target.txt', function() {
         else console.log("success");
       });
     });
+  });
 });
 console.log("Now watching target.txt for changes...");
 
